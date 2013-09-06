@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Red Hat Store</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<!--     <h:outputStylesheet name="" /> -->
+</h:head>
+
+<h:body>
+	<div id="container">
+		<div class="banner">
+			<img src="resources/images/rhbanner.jpg"></img>
+			<h:form>
+				<h:commandLink value="Log out" rendered="${userBean.loggedIn}" action="${userBean.logout()}"/>
+				<h:commandLink value="Log in" rendered="${not userBean.loggedIn}" outcome="${userBean.login()}"/>
+			</h:form>
+			
+		</div>
+		<div id="content">
+			<ui:insert name="content">
+    		</ui:insert>
+		</div>
+	</div>
+</h:body>
+
+</html>

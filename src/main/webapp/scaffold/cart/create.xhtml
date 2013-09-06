@@ -1,0 +1,453 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:forgeview="http://jboss.org/forge/view"	
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{cartBean.id}"/>
+		<f:event type="preRenderView" listener="#{cartBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Create Cart"/>
+
+	<ui:define name="header">
+		Cart
+	</ui:define>
+
+	<ui:define name="subheader">
+		<c:choose>
+			<c:when test="#{!empty cartBean.id}">
+				Edit existing Cart
+			</c:when>
+			<c:otherwise>
+				Create a new Cart
+			</c:otherwise>
+		</c:choose>
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="create">
+			<h:messages globalOnly="true" styleClass="error"/>
+
+			<h:panelGrid columnClasses="label,component,required" columns="3">
+				<h:outputLabel for="cartBeanCartItems" value="Items:"/>
+				<h:panelGroup>
+					<ui:param name="_collection" value="#{cartBean.cart.items}"/>
+					<h:dataTable id="cartBeanCartItems" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Price"/>
+							</f:facet>
+							<h:link outcome="/scaffold/item/view">
+								<f:param name="id" value="#{_item.id}"/>
+								<h:outputText id="itemPrice" value="#{_item.price}"/>
+							</h:link>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Name"/>
+							</f:facet>
+							<h:link outcome="/scaffold/item/view">
+								<f:param name="id" value="#{_item.id}"/>
+								<h:outputText id="itemName" value="#{_item.name}"/>
+							</h:link>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Image"/>
+							</f:facet>
+							<h:link outcome="/scaffold/item/view">
+								<f:param name="id" value="#{_item.id}"/>
+								<h:outputText id="itemImage" value="#{_item.image}"/>
+							</h:link>
+						</h:column>
+						<h:column footerClass="remove-column" headerClass="remove-column">
+							<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
+						</h:column>
+					</h:dataTable>
+					<h:panelGrid columnClasses=",remove-column" columns="2" styleClass="data-table-footer">
+						<h:selectOneMenu converter="#{itemBean.converter}" id="cartBeanCartItemsSelect" value="#{requestScope['cartBeanCartItemsSelect']}">
+							<f:selectItem/>
+							<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{itemBean.all}" var="_item"/>
+						</h:selectOneMenu>
+						<h:commandLink action="#{_collection.add(requestScope['cartBeanCartItemsSelect'])}" id="cartBeanCartItemsAdd" onclick="if (document.getElementById(document.forms[0].id+':cartBeanCartItemsSelect').selectedIndex &lt; 1) { alert('Must select a Item'); return false; }" styleClass="add-button"/>
+					</h:panelGrid>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="cartBeanCartUser" value="User:"/>
+				<h:panelGrid columnClasses="label,component,required" columns="3" id="cartBeanCartUser">
+					<h:outputLabel for="cartBeanCartUserCart" value="Cart:"/>
+					<h:panelGrid columnClasses="label,component,required" columns="3" id="cartBeanCartUserCart">
+						<h:outputLabel for="cartBeanCartUserCartItems" value="Items:"/>
+						<h:panelGroup>
+							<ui:param name="_collection" value="#{cartBean.cart.user.cart.items}"/>
+							<h:dataTable id="cartBeanCartUserCartItems" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Price"/>
+									</f:facet>
+									<h:link outcome="/scaffold/item/view">
+										<f:param name="id" value="#{_item.id}"/>
+										<h:outputText id="itemPrice" value="#{_item.price}"/>
+									</h:link>
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Name"/>
+									</f:facet>
+									<h:link outcome="/scaffold/item/view">
+										<f:param name="id" value="#{_item.id}"/>
+										<h:outputText id="itemName" value="#{_item.name}"/>
+									</h:link>
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Image"/>
+									</f:facet>
+									<h:link outcome="/scaffold/item/view">
+										<f:param name="id" value="#{_item.id}"/>
+										<h:outputText id="itemImage" value="#{_item.image}"/>
+									</h:link>
+								</h:column>
+								<h:column footerClass="remove-column" headerClass="remove-column">
+									<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
+								</h:column>
+							</h:dataTable>
+							<h:panelGrid columnClasses=",remove-column" columns="2" styleClass="data-table-footer">
+								<h:selectOneMenu converter="#{itemBean.converter}" id="cartBeanCartUserCartItemsSelect" value="#{requestScope['cartBeanCartUserCartItemsSelect']}">
+									<f:selectItem/>
+									<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{itemBean.all}" var="_item"/>
+								</h:selectOneMenu>
+								<h:commandLink action="#{_collection.add(requestScope['cartBeanCartUserCartItemsSelect'])}" id="cartBeanCartUserCartItemsAdd" onclick="if (document.getElementById(document.forms[0].id+':cartBeanCartUserCartItemsSelect').selectedIndex &lt; 1) { alert('Must select a Item'); return false; }" styleClass="add-button"/>
+							</h:panelGrid>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="cartBeanCartUserCartUser" value="User:"/>
+						<h:panelGrid columnClasses="label,component,required" columns="3" id="cartBeanCartUserCartUser">
+							<h:outputLabel for="cartBeanCartUserCartUserCart" value="Cart:"/>
+							<h:panelGrid columnClasses="label,component,required" columns="3" id="cartBeanCartUserCartUserCart">
+								<h:outputLabel for="cartBeanCartUserCartUserCartItems" value="Items:"/>
+								<h:panelGroup>
+									<ui:param name="_collection" value="#{cartBean.cart.user.cart.user.cart.items}"/>
+									<h:dataTable id="cartBeanCartUserCartUserCartItems" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
+										<h:column>
+											<f:facet name="header">
+												<h:outputText value="Price"/>
+											</f:facet>
+											<h:link outcome="/scaffold/item/view">
+												<f:param name="id" value="#{_item.id}"/>
+												<h:outputText id="itemPrice" value="#{_item.price}"/>
+											</h:link>
+										</h:column>
+										<h:column>
+											<f:facet name="header">
+												<h:outputText value="Name"/>
+											</f:facet>
+											<h:link outcome="/scaffold/item/view">
+												<f:param name="id" value="#{_item.id}"/>
+												<h:outputText id="itemName" value="#{_item.name}"/>
+											</h:link>
+										</h:column>
+										<h:column>
+											<f:facet name="header">
+												<h:outputText value="Image"/>
+											</f:facet>
+											<h:link outcome="/scaffold/item/view">
+												<f:param name="id" value="#{_item.id}"/>
+												<h:outputText id="itemImage" value="#{_item.image}"/>
+											</h:link>
+										</h:column>
+										<h:column footerClass="remove-column" headerClass="remove-column">
+											<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
+										</h:column>
+									</h:dataTable>
+									<h:panelGrid columnClasses=",remove-column" columns="2" styleClass="data-table-footer">
+										<h:selectOneMenu converter="#{itemBean.converter}" id="cartBeanCartUserCartUserCartItemsSelect" value="#{requestScope['cartBeanCartUserCartUserCartItemsSelect']}">
+											<f:selectItem/>
+											<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{itemBean.all}" var="_item"/>
+										</h:selectOneMenu>
+										<h:commandLink action="#{_collection.add(requestScope['cartBeanCartUserCartUserCartItemsSelect'])}" id="cartBeanCartUserCartUserCartItemsAdd" onclick="if (document.getElementById(document.forms[0].id+':cartBeanCartUserCartUserCartItemsSelect').selectedIndex &lt; 1) { alert('Must select a Item'); return false; }" styleClass="add-button"/>
+									</h:panelGrid>
+								</h:panelGroup>
+								<h:outputText/>
+								<h:outputLabel for="cartBeanCartUserCartUserCartUser" value="User:"/>
+								<h:panelGrid columnClasses="label,component,required" columns="3" id="cartBeanCartUserCartUserCartUser">
+									<h:outputLabel for="cartBeanCartUserCartUserCartUserCart" value="Cart:"/>
+									<h:panelGrid columnClasses="label,component,required" columns="3" id="cartBeanCartUserCartUserCartUserCart">
+										<h:outputLabel for="cartBeanCartUserCartUserCartUserCartItems" value="Items:"/>
+										<h:panelGroup>
+											<ui:param name="_collection" value="#{cartBean.cart.user.cart.user.cart.user.cart.items}"/>
+											<h:dataTable id="cartBeanCartUserCartUserCartUserCartItems" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
+												<h:column>
+													<f:facet name="header">
+														<h:outputText value="Price"/>
+													</f:facet>
+													<h:link outcome="/scaffold/item/view">
+														<f:param name="id" value="#{_item.id}"/>
+														<h:outputText id="itemPrice" value="#{_item.price}"/>
+													</h:link>
+												</h:column>
+												<h:column>
+													<f:facet name="header">
+														<h:outputText value="Name"/>
+													</f:facet>
+													<h:link outcome="/scaffold/item/view">
+														<f:param name="id" value="#{_item.id}"/>
+														<h:outputText id="itemName" value="#{_item.name}"/>
+													</h:link>
+												</h:column>
+												<h:column>
+													<f:facet name="header">
+														<h:outputText value="Image"/>
+													</f:facet>
+													<h:link outcome="/scaffold/item/view">
+														<f:param name="id" value="#{_item.id}"/>
+														<h:outputText id="itemImage" value="#{_item.image}"/>
+													</h:link>
+												</h:column>
+												<h:column footerClass="remove-column" headerClass="remove-column">
+													<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
+												</h:column>
+											</h:dataTable>
+											<h:panelGrid columnClasses=",remove-column" columns="2" styleClass="data-table-footer">
+												<h:selectOneMenu converter="#{itemBean.converter}" id="cartBeanCartUserCartUserCartUserCartItemsSelect" value="#{requestScope['cartBeanCartUserCartUserCartUserCartItemsSelect']}">
+													<f:selectItem/>
+													<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{itemBean.all}" var="_item"/>
+												</h:selectOneMenu>
+												<h:commandLink action="#{_collection.add(requestScope['cartBeanCartUserCartUserCartUserCartItemsSelect'])}" id="cartBeanCartUserCartUserCartUserCartItemsAdd" onclick="if (document.getElementById(document.forms[0].id+':cartBeanCartUserCartUserCartUserCartItemsSelect').selectedIndex &lt; 1) { alert('Must select a Item'); return false; }" styleClass="add-button"/>
+											</h:panelGrid>
+										</h:panelGroup>
+										<h:outputText/>
+										<h:outputLabel for="cartBeanCartUserCartUserCartUserCartUser" value="User:"/>
+										<h:panelGrid columnClasses="label,component,required" columns="3" id="cartBeanCartUserCartUserCartUserCartUser">
+											<h:outputLabel for="cartBeanCartUserCartUserCartUserCartUserCart" value="Cart:"/>
+											<h:panelGrid columnClasses="label,component,required" columns="3" id="cartBeanCartUserCartUserCartUserCartUserCart">
+												<h:outputLabel for="cartBeanCartUserCartUserCartUserCartUserCartItems" value="Items:"/>
+												<h:panelGroup>
+													<ui:param name="_collection" value="#{cartBean.cart.user.cart.user.cart.user.cart.user.cart.items}"/>
+													<h:dataTable id="cartBeanCartUserCartUserCartUserCartUserCartItems" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
+														<h:column>
+															<f:facet name="header">
+																<h:outputText value="Price"/>
+															</f:facet>
+															<h:link outcome="/scaffold/item/view">
+																<f:param name="id" value="#{_item.id}"/>
+																<h:outputText id="itemPrice" value="#{_item.price}"/>
+															</h:link>
+														</h:column>
+														<h:column>
+															<f:facet name="header">
+																<h:outputText value="Name"/>
+															</f:facet>
+															<h:link outcome="/scaffold/item/view">
+																<f:param name="id" value="#{_item.id}"/>
+																<h:outputText id="itemName" value="#{_item.name}"/>
+															</h:link>
+														</h:column>
+														<h:column>
+															<f:facet name="header">
+																<h:outputText value="Image"/>
+															</f:facet>
+															<h:link outcome="/scaffold/item/view">
+																<f:param name="id" value="#{_item.id}"/>
+																<h:outputText id="itemImage" value="#{_item.image}"/>
+															</h:link>
+														</h:column>
+														<h:column footerClass="remove-column" headerClass="remove-column">
+															<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
+														</h:column>
+													</h:dataTable>
+													<h:panelGrid columnClasses=",remove-column" columns="2" styleClass="data-table-footer">
+														<h:selectOneMenu converter="#{itemBean.converter}" id="cartBeanCartUserCartUserCartUserCartUserCartItemsSelect" value="#{requestScope['cartBeanCartUserCartUserCartUserCartUserCartItemsSelect']}">
+															<f:selectItem/>
+															<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{itemBean.all}" var="_item"/>
+														</h:selectOneMenu>
+														<h:commandLink action="#{_collection.add(requestScope['cartBeanCartUserCartUserCartUserCartUserCartItemsSelect'])}" id="cartBeanCartUserCartUserCartUserCartUserCartItemsAdd" onclick="if (document.getElementById(document.forms[0].id+':cartBeanCartUserCartUserCartUserCartUserCartItemsSelect').selectedIndex &lt; 1) { alert('Must select a Item'); return false; }" styleClass="add-button"/>
+													</h:panelGrid>
+												</h:panelGroup>
+												<h:outputText/>
+												<h:outputLabel for="cartBeanCartUserCartUserCartUserCartUserCartUser" value="User:"/>
+												<h:panelGrid columnClasses="label,component,required" columns="3" id="cartBeanCartUserCartUserCartUserCartUserCartUser">
+													<h:outputLabel for="cartBeanCartUserCartUserCartUserCartUserCartUserCart" value="Cart:"/>
+													<h:panelGrid columnClasses="label,component,required" columns="3" id="cartBeanCartUserCartUserCartUserCartUserCartUserCart">
+														<h:outputLabel for="cartBeanCartUserCartUserCartUserCartUserCartUserCartItems" value="Items:"/>
+														<h:panelGroup>
+															<ui:param name="_collection" value="#{cartBean.cart.user.cart.user.cart.user.cart.user.cart.user.cart.items}"/>
+															<h:dataTable id="cartBeanCartUserCartUserCartUserCartUserCartUserCartItems" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
+																<h:column>
+																	<f:facet name="header">
+																		<h:outputText value="Price"/>
+																	</f:facet>
+																	<h:link outcome="/scaffold/item/view">
+																		<f:param name="id" value="#{_item.id}"/>
+																		<h:outputText id="itemPrice" value="#{_item.price}"/>
+																	</h:link>
+																</h:column>
+																<h:column>
+																	<f:facet name="header">
+																		<h:outputText value="Name"/>
+																	</f:facet>
+																	<h:link outcome="/scaffold/item/view">
+																		<f:param name="id" value="#{_item.id}"/>
+																		<h:outputText id="itemName" value="#{_item.name}"/>
+																	</h:link>
+																</h:column>
+																<h:column>
+																	<f:facet name="header">
+																		<h:outputText value="Image"/>
+																	</f:facet>
+																	<h:link outcome="/scaffold/item/view">
+																		<f:param name="id" value="#{_item.id}"/>
+																		<h:outputText id="itemImage" value="#{_item.image}"/>
+																	</h:link>
+																</h:column>
+																<h:column footerClass="remove-column" headerClass="remove-column">
+																	<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
+																</h:column>
+															</h:dataTable>
+															<h:panelGrid columnClasses=",remove-column" columns="2" styleClass="data-table-footer">
+																<h:selectOneMenu converter="#{itemBean.converter}" id="cartBeanCartUserCartUserCartUserCartUserCartUserCartItemsSelect" value="#{requestScope['cartBeanCartUserCartUserCartUserCartUserCartUserCartItemsSelect']}">
+																	<f:selectItem/>
+																	<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{itemBean.all}" var="_item"/>
+																</h:selectOneMenu>
+																<h:commandLink action="#{_collection.add(requestScope['cartBeanCartUserCartUserCartUserCartUserCartUserCartItemsSelect'])}" id="cartBeanCartUserCartUserCartUserCartUserCartUserCartItemsAdd" onclick="if (document.getElementById(document.forms[0].id+':cartBeanCartUserCartUserCartUserCartUserCartUserCartItemsSelect').selectedIndex &lt; 1) { alert('Must select a Item'); return false; }" styleClass="add-button"/>
+															</h:panelGrid>
+														</h:panelGroup>
+														<h:outputText/>
+													</h:panelGrid>
+													<h:outputText value="*"/>
+													<h:outputLabel for="cartBeanCartUserCartUserCartUserCartUserCartUserPassword" value="Password:"/>
+													<h:panelGroup>
+														<h:inputText id="cartBeanCartUserCartUserCartUserCartUserCartUserPassword" maxLength="15" required="true" value="#{cartBean.cart.user.cart.user.cart.user.cart.user.cart.user.password}"/>
+														<h:message for="cartBeanCartUserCartUserCartUserCartUserCartUserPassword" styleClass="error"/>
+													</h:panelGroup>
+													<h:outputText value="*"/>
+													<h:outputLabel for="cartBeanCartUserCartUserCartUserCartUserCartUserUsername" value="Username:"/>
+													<h:panelGroup>
+														<h:inputText id="cartBeanCartUserCartUserCartUserCartUserCartUserUsername" maxLength="15" required="true" value="#{cartBean.cart.user.cart.user.cart.user.cart.user.cart.user.username}"/>
+														<h:message for="cartBeanCartUserCartUserCartUserCartUserCartUserUsername" styleClass="error"/>
+													</h:panelGroup>
+													<h:outputText value="*"/>
+													<h:outputLabel for="cartBeanCartUserCartUserCartUserCartUserCartUserEmail" value="Email:"/>
+													<h:panelGroup>
+														<h:inputText id="cartBeanCartUserCartUserCartUserCartUserCartUserEmail" value="#{cartBean.cart.user.cart.user.cart.user.cart.user.cart.user.email}"/>
+														<h:message for="cartBeanCartUserCartUserCartUserCartUserCartUserEmail" styleClass="error"/>
+													</h:panelGroup>
+													<h:outputText/>
+												</h:panelGrid>
+												<h:outputText value="*"/>
+											</h:panelGrid>
+											<h:outputText value="*"/>
+											<h:outputLabel for="cartBeanCartUserCartUserCartUserCartUserPassword" value="Password:"/>
+											<h:panelGroup>
+												<h:inputText id="cartBeanCartUserCartUserCartUserCartUserPassword" maxLength="15" required="true" value="#{cartBean.cart.user.cart.user.cart.user.cart.user.password}"/>
+												<h:message for="cartBeanCartUserCartUserCartUserCartUserPassword" styleClass="error"/>
+											</h:panelGroup>
+											<h:outputText value="*"/>
+											<h:outputLabel for="cartBeanCartUserCartUserCartUserCartUserUsername" value="Username:"/>
+											<h:panelGroup>
+												<h:inputText id="cartBeanCartUserCartUserCartUserCartUserUsername" maxLength="15" required="true" value="#{cartBean.cart.user.cart.user.cart.user.cart.user.username}"/>
+												<h:message for="cartBeanCartUserCartUserCartUserCartUserUsername" styleClass="error"/>
+											</h:panelGroup>
+											<h:outputText value="*"/>
+											<h:outputLabel for="cartBeanCartUserCartUserCartUserCartUserEmail" value="Email:"/>
+											<h:panelGroup>
+												<h:inputText id="cartBeanCartUserCartUserCartUserCartUserEmail" value="#{cartBean.cart.user.cart.user.cart.user.cart.user.email}"/>
+												<h:message for="cartBeanCartUserCartUserCartUserCartUserEmail" styleClass="error"/>
+											</h:panelGroup>
+											<h:outputText/>
+										</h:panelGrid>
+										<h:outputText value="*"/>
+									</h:panelGrid>
+									<h:outputText value="*"/>
+									<h:outputLabel for="cartBeanCartUserCartUserCartUserPassword" value="Password:"/>
+									<h:panelGroup>
+										<h:inputText id="cartBeanCartUserCartUserCartUserPassword" maxLength="15" required="true" value="#{cartBean.cart.user.cart.user.cart.user.password}"/>
+										<h:message for="cartBeanCartUserCartUserCartUserPassword" styleClass="error"/>
+									</h:panelGroup>
+									<h:outputText value="*"/>
+									<h:outputLabel for="cartBeanCartUserCartUserCartUserUsername" value="Username:"/>
+									<h:panelGroup>
+										<h:inputText id="cartBeanCartUserCartUserCartUserUsername" maxLength="15" required="true" value="#{cartBean.cart.user.cart.user.cart.user.username}"/>
+										<h:message for="cartBeanCartUserCartUserCartUserUsername" styleClass="error"/>
+									</h:panelGroup>
+									<h:outputText value="*"/>
+									<h:outputLabel for="cartBeanCartUserCartUserCartUserEmail" value="Email:"/>
+									<h:panelGroup>
+										<h:inputText id="cartBeanCartUserCartUserCartUserEmail" value="#{cartBean.cart.user.cart.user.cart.user.email}"/>
+										<h:message for="cartBeanCartUserCartUserCartUserEmail" styleClass="error"/>
+									</h:panelGroup>
+									<h:outputText/>
+								</h:panelGrid>
+								<h:outputText value="*"/>
+							</h:panelGrid>
+							<h:outputText value="*"/>
+							<h:outputLabel for="cartBeanCartUserCartUserPassword" value="Password:"/>
+							<h:panelGroup>
+								<h:inputText id="cartBeanCartUserCartUserPassword" maxLength="15" required="true" value="#{cartBean.cart.user.cart.user.password}"/>
+								<h:message for="cartBeanCartUserCartUserPassword" styleClass="error"/>
+							</h:panelGroup>
+							<h:outputText value="*"/>
+							<h:outputLabel for="cartBeanCartUserCartUserUsername" value="Username:"/>
+							<h:panelGroup>
+								<h:inputText id="cartBeanCartUserCartUserUsername" maxLength="15" required="true" value="#{cartBean.cart.user.cart.user.username}"/>
+								<h:message for="cartBeanCartUserCartUserUsername" styleClass="error"/>
+							</h:panelGroup>
+							<h:outputText value="*"/>
+							<h:outputLabel for="cartBeanCartUserCartUserEmail" value="Email:"/>
+							<h:panelGroup>
+								<h:inputText id="cartBeanCartUserCartUserEmail" value="#{cartBean.cart.user.cart.user.email}"/>
+								<h:message for="cartBeanCartUserCartUserEmail" styleClass="error"/>
+							</h:panelGroup>
+							<h:outputText/>
+						</h:panelGrid>
+						<h:outputText value="*"/>
+					</h:panelGrid>
+					<h:outputText value="*"/>
+					<h:outputLabel for="cartBeanCartUserPassword" value="Password:"/>
+					<h:panelGroup>
+						<h:inputText id="cartBeanCartUserPassword" maxLength="15" required="true" value="#{cartBean.cart.user.password}"/>
+						<h:message for="cartBeanCartUserPassword" styleClass="error"/>
+					</h:panelGroup>
+					<h:outputText value="*"/>
+					<h:outputLabel for="cartBeanCartUserUsername" value="Username:"/>
+					<h:panelGroup>
+						<h:inputText id="cartBeanCartUserUsername" maxLength="15" required="true" value="#{cartBean.cart.user.username}"/>
+						<h:message for="cartBeanCartUserUsername" styleClass="error"/>
+					</h:panelGroup>
+					<h:outputText value="*"/>
+					<h:outputLabel for="cartBeanCartUserEmail" value="Email:"/>
+					<h:panelGroup>
+						<h:inputText id="cartBeanCartUserEmail" value="#{cartBean.cart.user.email}"/>
+						<h:message for="cartBeanCartUserEmail" styleClass="error"/>
+					</h:panelGroup>
+					<h:outputText/>
+				</h:panelGrid>
+				<h:outputText value="*"/>
+			</h:panelGrid>
+
+			<div class="buttons">
+				<h:commandLink value="Save" action="#{cartBean.update}" styleClass="btn btn-primary"/>
+				<c:choose>
+					<c:when test="#{!empty cartBean.id}">
+						<h:link value="Cancel" outcome="view" styleClass="btn btn-primary">
+							<f:param name="id" value="#{cartBean.id}"/>
+						</h:link>
+						<h:commandLink value="Delete" action="#{cartBean.delete}" styleClass="btn btn-primary"/>
+					</c:when>
+					<c:otherwise>
+						<h:link value="Cancel" outcome="search" styleClass="btn btn-primary"/>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

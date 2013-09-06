@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+    <h:form rendered="${not empty userBean.cart.items}">
+    <h:commandLink value="View items in cart (${userBean.numItemsInCart()})" action="${userBean.viewCart()}" /><br/>
+    <h:commandLink value="Proceed to checkout " action="${checkoutController.begin()}" />
+    (<h:outputText value="${userBean.getCart().getTotal()}">
+    <f:convertNumber type="currency"/>
+    </h:outputText>)
+	</h:form>
+  	<div id="welcome">
+  	Welcome to the red hat store, ${userBean.user.username}! Check out our cool hats.
+  	</div>
+  	<div id="items">
+  	<h:dataTable var="_item" value="${itemBean.getAll()}" >
+  		<h:column>
+  			<img src="${_item.imageAbsolutePath}" width="100" height="100"/>
+  		</h:column>
+  		<h:column>
+  			<h:outputText value="${_item.name}" />
+  		</h:column>
+  		<h:column>
+  			<h:outputText value="${_item.price}">
+  				<f:convertNumber type="currency" />
+  			</h:outputText>
+  		</h:column>
+  		<h:column>
+  		<h:form><h:commandLink action="${userBean.addToCart(_item)}" value="Add to cart" /></h:form>
+  		</h:column>
+  	</h:dataTable>
+  	</div>
+    
+    </ui:define>
+</ui:composition>

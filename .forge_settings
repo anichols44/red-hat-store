@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+<org>
+<jboss>
+<forge>
+<scaffold>
+<faces>
+<FacesScaffold_targetDir>scaffold</FacesScaffold_targetDir>
+</faces>
+</scaffold>
+</forge>
+</jboss>
+</org>
+<activatorChoice>WEB_XML</activatorChoice>
+<rootpath>"/rest"</rootpath>
+<rest>
+<applicationclass>
+<package>org.jboss.as.quickstarts.kitchensink.rest</package>
+<name>/home/anichols/workspace/jboss-as-kitchensink/src/main/java/org/jboss/as/quickstarts/kitchensink/rest/JaxRsActivator.java</name>
+</applicationclass>
+</rest>
+</configuration>

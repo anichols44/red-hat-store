@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j">
+
+	<ui:composition template="WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<label for="billingAddress">Billing Address</label>
+		<h:form>
+			<h:panelGrid>
+		
+			<label for="checkbox">Billing address same as delivery address</label>
+			<h:selectBooleanCheckbox id="checkbox" value="${checkoutController.billingAddressEqualsDelivery}">
+				<f:ajax event="change" render="@form" listener="${checkoutController.setBillingAddress}" />
+			</h:selectBooleanCheckbox>
+			Cardholder's name <h:inputText value="${checkoutController.payName}"/>
+			Billing street address <h:inputText value="${checkoutController.payStreetAddress}"/>
+			City, state<h:inputText value="${checkoutController.payCityState}"/>
+			Zip code<h:inputText value="${checkoutController.payZip}"/>	
+		<label for="cardInfo">Credit Card Information</label>
+		<div id="cardInfo">
+			Card Number <h:inputText value="${checkoutController.cardNumber}"/>
+			Expiration Date <h:inputText value="${checkoutController.cardExpDate}" >
+			</h:inputText>
+		</div>
+		<h:commandLink action="${checkoutController.confirmation()}" value="Proceed to confirmation" />
+		</h:panelGrid>
+		</h:form>
+	</ui:define>
+	</ui:composition>
+</html>

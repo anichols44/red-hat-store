@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    template="/WEB-INF/templates/default.xhtml">
+    
+    <ui:define name="content">
+    <h:form rendered="${userBean.isLoggedIn()}">
+    	<h:inputHidden value="${userBean.loginRedirect()}" id="redirect"/>
+    </h:form>
+	    <h:form>
+	    <h1>New Users</h1>
+	    	<p>
+		    <h:outputLabel value="Username" for="username" />
+		    <h:inputText value="${user.username}" id="username"/>
+			</p>
+			<p>
+			<h:outputLabel value="Email" for="email" />
+			<h:inputText value="${user.email}" id="email" />
+			</p>
+			<p>
+			<h:outputLabel value="Password" for="password"/>
+			<h:inputSecret value="${user.password}" id="password" />
+			</p>
+		    <h:commandButton value="Register" action="${userBean.register}" />
+	    </h:form>	    
+	    <h:form>
+	    <h1>Existing Users</h1>
+	    	<p>
+		    <h:outputLabel value="Username" for="username" />
+		    <h:inputText value="${userBean.user.username}" id="username"/>
+			</p>
+			<p>
+			<h:outputLabel value="Password" for="password" />
+			<h:inputSecret value="${userBean.user.password}" id="password" />
+			</p>
+		    <h:commandButton value="Log in" action="${userBean.login}" id="login"/>
+		    <h:messages />
+	    </h:form>
+    </ui:define>
+    
+</ui:composition>

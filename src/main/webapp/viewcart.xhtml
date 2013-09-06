@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      template="/WEB-INF/templates/default.xhtml">
+      
+<ui:define name="content">
+	<h:form>
+	<h:outputText rendered="${empty userBean.getItemsInCart()}" value="There are no items in your cart. "/>
+	<h:outputText value="Click "/>
+	<h:commandLink value="here" action="welcome"/>
+	<h:outputText value=" to return to the items page." />
+	</h:form>
+  	<h:dataTable var="_item" value="${userBean.getItemsInCart()}" >
+  		<h:column>
+  			<img src="${_item.imageAbsolutePath}" width="100" height="100"/>
+  		</h:column>
+  		<h:column>
+  			<h:outputText value="${_item.name}" />
+  		</h:column>
+  		<h:column>
+  			<h:outputText value="${_item.price}">
+  				<f:convertNumber type="currency" />
+  			</h:outputText>
+  		</h:column>
+  		<h:column>
+  		<h:form><h:commandLink action="${userBean.removeFromCart(_item)}" value="Remove from cart" /></h:form>
+  		</h:column>
+  	</h:dataTable>
+  	Total: 
+  	<h:outputText value="${userBean.getCart().getTotal()}">
+  	<f:convertNumber type="currency" />
+  	</h:outputText>
+  	<h:form>
+  	<h:commandLink action="${checkoutController.begin()}" value="Proceed to checkout" />
+  	</h:form>
+</ui:define>
+</ui:composition>

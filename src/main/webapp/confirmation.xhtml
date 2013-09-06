@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:composition template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h:panelGrid>
+			<div id="items">
+			Items: 
+				<h:dataTable var="_item" value="${userBean.getItemsInCart()}" >
+			  		<h:column>
+			  			<h:outputText value="${_item.name}" />
+			  		</h:column>
+			  		<h:column>
+			  			<h:outputText value="${_item.price}">
+			  				<f:convertNumber type="currency" />
+			  			</h:outputText>
+			  		</h:column>
+			  	</h:dataTable>
+			  	Total: 
+			  	<h:outputText value="${userBean.getCart().getTotal()}">
+			  	<f:convertNumber type="currency" />
+			  	</h:outputText>
+			</div>
+			<div id="delAddress">
+				Recipient: <h:outputText value="${checkoutController.name}" />
+				Delivery Address: <h:outputText value="${checkoutController.streetAddress}" />
+				<h:outputText value="${checkoutController.cityState}" />
+				<h:outputText value="${checkoutController.zip}" />
+			</div>
+			<div id="billInfo">
+				Cardholder: <h:outputText value="${checkoutController.payName}" />
+				Billing address: <h:outputText value="${checkoutController.payStreetAddress}" />
+				<h:outputText value="${checkoutController.payCityState}" />
+				<h:outputText value="${checkoutController.payZip}" />
+				Card number: <h:outputText value="${checkoutController.cardNumber}" />
+				Expiration date: <h:outputText value="${checkoutController.cardExpDate}" />
+			</div>
+			<h:form><h:commandLink action="${checkoutController.order()}" value="Place order" /></h:form>
+		</h:panelGrid>
+	</ui:define>
+	</ui:composition>
+</html>

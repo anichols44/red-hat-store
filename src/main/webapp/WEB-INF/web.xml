@@ -4,6 +4,10 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 	<display-name>red-hat-store</display-name>
 	<context-param>
+		<param-name>facelets.SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
 		<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
 		<param-value>true</param-value>
 	</context-param>
@@ -39,13 +43,4 @@
 		<description>administrator</description>
 		<role-name>admin</role-name>
 	</security-role>
-<!-- 	<servlet> -->
-<!-- 		<servlet-name>Faces Servlet</servlet-name> -->
-<!-- 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class> -->
-<!-- 		<load-on-startup>1</load-on-startup> -->
-<!-- 	</servlet> -->
-<!-- 	<servlet-mapping> -->
-<!-- 		<servlet-name>Faces Servlet</servlet-name> -->
-<!-- 		<url-pattern>/faces/*</url-pattern> -->
-<!-- 	</servlet-mapping> -->
 </web-app>

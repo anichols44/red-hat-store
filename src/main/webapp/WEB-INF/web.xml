@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	version="3.0"
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 	<display-name>red-hat-store</display-name>
+	<context-param>
+		<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+		<param-value>true</param-value>
+	</context-param>
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
@@ -14,10 +18,6 @@
 		<error-code>500</error-code>
 		<location>/faces/error.xhtml</location>
 	</error-page>
-	<context-param>
-		<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
-		<param-value>true</param-value>
-	</context-param>
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>CRUD</web-resource-name>
@@ -28,12 +28,24 @@
 			<role-name>admin</role-name>
 		</auth-constraint>
 	</security-constraint>
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/faces/login.xhtml</form-login-page>
+			<form-error-page>/faces/login.xhtml?failed=true</form-error-page>
+		</form-login-config>
+	</login-config>
 	<security-role>
 		<description>administrator</description>
 		<role-name>admin</role-name>
 	</security-role>
-	<login-config>
-		<auth-method>BASIC</auth-method>
-		<realm-name>rhs</realm-name>
-	</login-config>
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>Faces Servlet</servlet-name> -->
+<!-- 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class> -->
+<!-- 		<load-on-startup>1</load-on-startup> -->
+<!-- 	</servlet> -->
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>Faces Servlet</servlet-name> -->
+<!-- 		<url-pattern>/faces/*</url-pattern> -->
+<!-- 	</servlet-mapping> -->
 </web-app>

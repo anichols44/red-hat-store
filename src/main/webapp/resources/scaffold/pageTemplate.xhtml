@@ -5,7 +5,7 @@
 
 <h:head>
 	<title>#{empty pageTitle ? '{#pageTitle}' : pageTitle}</title>
-<!-- 	<link rel="icon" href="#{resource['favicon.ico']}" /> -->
+	<link rel="icon" href="#{resource['favicon.ico']}" />
 	<h:outputStylesheet name="bootstrap.css" />
 	<h:outputStylesheet name="forge-style.css" />
 </h:head>
@@ -29,17 +29,17 @@
 			<h:link id="homeLink" outcome="/scaffold/index.xhtml">
 				<img src="#{resource['forge-logo.png']}" alt="Forge... get hammered" border="0" />
 			</h:link>
-			<ul>
-				<li>
-					<h:link outcome="/scaffold/cart/search" value="Cart"/>
-				</li>
-				<li>
-					<h:link outcome="/scaffold/item/search" value="Item"/>
-				</li>
-				<li>
-					<h:link outcome="/scaffold/user/search" value="User"/>
-				</li>
-			</ul>
+<!-- 			<ul> -->
+<!-- 				<li> -->
+<!-- 					<h:link outcome="/scaffold/cart/search" value="Cart"/> -->
+<!-- 				</li> -->
+<!-- 				<li> -->
+<!-- 					<h:link outcome="/scaffold/item/search" value="Item"/> -->
+<!-- 				</li> -->
+<!-- 				<li> -->
+<!-- 					<h:link outcome="/scaffold/user/search" value="User"/> -->
+<!-- 				</li> -->
+<!-- 			</ul> -->
 		</div>
 
 		<div id="content">

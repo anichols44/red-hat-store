@@ -124,6 +124,11 @@ public class UserBean implements Serializable {
 		return "index";
 	}
 	
+	public void clearCart() {
+		cart.removeAllItems();
+		cartChangeEvent.fire(new CartEvent());
+	}
+	
 	public void addToCart(Item item) {
 		cart.addItem(item);
 		cartChangeEvent.fire(new CartEvent());

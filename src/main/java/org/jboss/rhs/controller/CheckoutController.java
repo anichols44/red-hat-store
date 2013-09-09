@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.jboss.rhs.service.LogoutEvent;
+import org.jboss.rhs.view.UserBean;
 
 @ConversationScoped
 @Named
@@ -20,10 +21,10 @@ public class CheckoutController implements Serializable {
 
 	@Inject
 	private Conversation conversation;
-
+	
 	@Inject
-	FacesContext context;
-
+	private UserBean userBean;
+	
 	private String name, streetAddress, cityState, zip;
 
 	private String payName, payStreetAddress, payCityState, payZip;
@@ -56,6 +57,7 @@ public class CheckoutController implements Serializable {
 
 	public String order() {
 		conversation.end();
+		userBean.clearCart();
 		return "order";
 
 	}

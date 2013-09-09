@@ -50,6 +50,11 @@ public class Cart implements Serializable {
 		total -= item.getPrice();
 	}
 
+	public void removeAllItems() {
+		items.removeAll(items);
+		total = 0;
+	}
+	
 	public long getUserId() {
 		return userId;
 	}
